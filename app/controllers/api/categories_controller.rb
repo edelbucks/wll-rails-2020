@@ -45,7 +45,7 @@ class Api::CategoriesController < ApplicationController
     p 'directory:', directory, 'from ', params[:path]
     @category = Category.find_by_directory(directory)
     @category_hash = @category.attributes
-    @category_hash['articles'] = Article.select(:title, :published, :created_at, :directory, :path, :description).where(directory: directory, published: true)
+    @category_hash['articles'] = Article.select(:title, :published, :updated_at, :directory, :path, :description).where(directory: directory, published: true)
         .map{| a | a.attributes}
     p 'returning', @category_hash
     render json: @category_hash
