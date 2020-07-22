@@ -1,3 +1,5 @@
+require 'uri'
+
 class Api::ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :update, :destroy]
 
@@ -41,6 +43,18 @@ class Api::ArticlesController < ApplicationController
   # DELETE /articles/1
   def destroy
     @article.destroy
+  end
+
+  # GET /articles/*path
+  #
+  def by_path
+    path = URI.decode_www_form_component(params[:path]).sub(/\.json$/, '')
+    unless path.match(/\.md$/)
+      path += '.md'
+    end
+    p 'path:', path
+    @article = Article.find_by_path(path)
+    render json: @article
   end
 
   private
