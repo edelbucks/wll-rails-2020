@@ -48,7 +48,7 @@ class Api::ArticlesController < ApplicationController
   # GET /articles/*path
   #
   def by_path
-    path = URI.decode_www_form_component(params[:path]).sub(/\.json$/, '')
+    path = URI.decode_www_form_component(params[:path]).sub(/\.(json|md)$/, '')
     unless path.match(/\.md$/)
       path += '.md'
     end
