@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  version: 
+  directory: MyString
+  sha: MyString
+  meta: 
+  description: MyText
+  content: MyText
+  published: false
+  on_homepage: false
+  file_creatred: 2020-07-22
+  file_revised: 2020-07-22
+  path: MyString
+
+two:
+  title: MyString
+  version: 
+  directory: MyString
+  sha: MyString
+  meta: 
+  description: MyText
+  content: MyText
+  published: false
+  on_homepage: false
+  file_creatred: 2020-07-22
+  file_revised: 2020-07-22
+  path: MyString

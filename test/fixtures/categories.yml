@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  directory: MyString
+  title: MyString
+  published: false
+  content: MyString
+  sequence: 1
+
+two:
+  directory: MyString
+  title: MyString
+  published: false
+  content: MyString
+  sequence: 1
