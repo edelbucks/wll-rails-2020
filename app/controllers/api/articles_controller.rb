@@ -40,7 +40,7 @@ class Api::ArticlesController < ApplicationController
 
     articles = Article.where(path: path).order('updated_at DESC')
     max = -1
-    articles.each {|a| max = a.version if a.version > max}
+    articles.each {|a| max = a.version if a.version && a.version > max}
 
     if articles.first
       articles.first.published = false
