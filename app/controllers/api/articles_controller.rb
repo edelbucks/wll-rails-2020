@@ -1,7 +1,7 @@
 require 'uri'
 
 class Api::ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :update, :destroy]
+  before_action :set_article, only: [:show]
 
   # GET /articles
   def index
@@ -33,7 +33,26 @@ class Api::ArticlesController < ApplicationController
 
   # PATCH/PUT /articles/1
   def update
-    if @article.update(article_params)
+    unless path
+      render json: {error: 'not found'}, status: :not_found
+    end
+
+
+    articles = Article.where(path: path).order('updated_at DESC')
+    max = -1
+    articles.each {|a| max = a.version if a.version > max}
+
+    if articles.first
+      articles.first.published = false
+      articles.first.save!
+    end
+
+    @article = Article.new(article_params)
+    if max > -1
+      @article.version = max + 1
+    end
+
+    if @article.save!
       render json: @article
     else
       render json: @article.errors, status: :unprocessable_entity
@@ -48,16 +67,26 @@ class Api::ArticlesController < ApplicationController
   # GET /articles/*path
   #
   def by_path
-    path = URI.decode_www_form_component(params[:path]).sub(/\.(json|md)$/, '')
-    unless path.match(/\.md$/)
-      path += '.md'
+    articles = Article.where(path: path).order('updated_at DESC')
+    unless articles&.first
+      render json: {error: 'not found'}, status: :not_found
     end
-    p 'path:', path
-    @article = Article.find_by_path(path)
+    @article = articles.first
     render json: @article
   end
 
   private
+
+  def path
+    path = URI.decode_www_form_component(params[:path]).sub(/\.(json|md)$/, '')
+    unless path && !path.blank?
+      return '';
+    end
+    unless path.match(/\.md$/)
+      path += '.md'
+    end
+    path
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_article

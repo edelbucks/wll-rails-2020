@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     get 'homepage-articles', to: 'articles#homepage'
     get 'articles/*path', to: 'articles#by_path'
     get 'articles/*path.md', to: 'articles#by_path'
+    put 'articles/*path', to: 'articles#update'
+    put 'articles/*path.md', to: 'articles#update'
 
     get 'categories/*path', to: 'categories#by_path'
   end
